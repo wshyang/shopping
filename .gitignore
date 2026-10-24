@@ -1,0 +1,17 @@
+node_modules/
+.output/
+.wxt/
+dist/
+coverage/
+test-results/
+playwright-report/
+blob-report/
+.auth/
+*.log
+.env
+.env.local
+.env.test.local
+.DS_Store
+Thumbs.db
+coverage/
+playwright/.cache/

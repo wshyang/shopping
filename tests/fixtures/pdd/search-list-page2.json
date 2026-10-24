@@ -1,0 +1,17 @@
+{
+  "goods_list": [
+    {
+      "goods_id": "123456794",
+      "goods_name": "碧浪洗衣粉 6kg 机洗专用",
+      "price": "¥32.9",
+      "sales_label": "热销2万+件"
+    },
+    {
+      "goods_id": "123456795",
+      "goods_name": "卫新洗衣粉 8斤装",
+      "price": "¥18.0",
+      "sales_label": "本店已拼1200"
+    }
+  ],
+  "has_more": true
+}
