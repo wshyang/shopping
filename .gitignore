@@ -1,0 +1,10 @@
+node_modules/
+.wxt/
+.output/
+.auth/
+coverage/
+test-results/
+playwright-report/
+*.zip
+.gitlab-ci.yml
+.gitlab/CODEOWNERS
