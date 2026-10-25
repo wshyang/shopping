@@ -1,0 +1,11 @@
+node_modules
+.output
+.wxt
+coverage
+test-results
+playwright-report
+.auth
+tests/fixtures/pdd
+package-lock.json
+GREENFIELD.md
+docs/ARCHITECTURE.md

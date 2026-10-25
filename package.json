@@ -1,0 +1,46 @@
+{
+  "name": "pdd-shopper-review-helper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A privacy-first Chromium extension that adds Pinduoduo review counts to search results.",
+  "engines": {
+    "node": ">=22.22.0 <25",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "postinstall": "wxt prepare",
+    "dev": "wxt --host 0.0.0.0",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "test": "vitest run --coverage",
+    "test:unit": "vitest run",
+    "test:e2e": "npm run build && playwright test tests/e2e",
+    "test:live": "npm run build && LIVE=1 playwright test tests/live",
+    "recon:browser": "node scripts/recon/browser.mjs",
+    "recon:harvest": "node scripts/recon/harvest.mjs",
+    "recon:capture": "node scripts/recon/capture.mjs",
+    "recon:sanitize": "node scripts/recon/sanitize.mjs"
+  },
+  "dependencies": {
+    "wxt": "0.21.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.38.0",
+    "@playwright/test": "1.56.1",
+    "@types/chrome": "0.1.31",
+    "@types/node": "24.9.1",
+    "@vitest/coverage-v8": "4.0.3",
+    "eslint": "9.38.0",
+    "eslint-import-resolver-typescript": "4.4.5",
+    "eslint-plugin-import-x": "4.16.1",
+    "happy-dom": "20.0.10",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.2",
+    "vitest": "4.0.3"
+  }
+}
