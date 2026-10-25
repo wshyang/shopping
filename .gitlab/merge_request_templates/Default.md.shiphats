@@ -1,0 +1,19 @@
+# Merge Request
+
+## What
+<!-- Describe the change -->
+
+## Why (addendum)
+<!-- Link to addendum A-XXX if this fills a spec gap or deviates -->
+
+## Validation
+- [ ] `npm run typecheck` pass
+- [ ] `npm run lint` pass
+- [ ] `npm run test` pass (coverage ≥80%)
+- [ ] `npm run test:e2e` pass (video retained on failure)
+
+## Checklist
+- [ ] `data-testid` on new interactive elements
+- [ ] Typed wire contract updated if fields changed
+- [ ] Fixtures sanitized (no PDDAccessToken / phone numbers)
+- [ ] Addendum added if spec gap/deviation

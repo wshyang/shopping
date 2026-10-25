@@ -1,0 +1,85 @@
+# SHIP-HATS inert pipeline — activate with ./activate-shiphats.sh
+# Placeholders: @@SHIPHATS_<NAME>@@ — never secrets (GREENFIELD §10.3)
+
+stages:
+  - .pre
+  - build
+  - test
+  - static-test
+  - sign
+  - runtime-test
+  - deploy
+
+variables:
+  CF_LEVEL: '@@SHIPHATS_CF_LEVEL@@'
+
+include:
+  - project: 'innersource/sgts/ship-hats/ship-hats-templates'
+    ref: 'v1.1.12'
+    file: 'templates/gitlab-ci.yml'
+
+# --- local gates (mirrors package.json scripts) ---
+
+typecheck:
+  stage: build
+  image: node:24-alpine
+  script:
+    - npm ci
+    - npm run typecheck
+  needs: []
+
+lint:
+  stage: build
+  image: node:24-alpine
+  script:
+    - npm ci
+    - npm run lint
+    - npm run format:check
+  needs: []
+
+unit-test:
+  stage: test
+  image: node:24-alpine
+  script:
+    - npm ci
+    - npm run test -- --coverage
+  artifacts:
+    paths:
+      - coverage/
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+  needs: []
+
+e2e-test:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.55.0-jammy
+  script:
+    - npm ci
+    - npx playwright install --with-deps chromium
+    - npm run test:e2e
+  artifacts:
+    when: always
+    paths:
+      - playwright-report/
+      - test-results/
+  needs: []
+
+build-zip:
+  stage: build
+  image: node:24-alpine
+  script:
+    - npm ci
+    - npm run build
+    - npm run zip
+  artifacts:
+    paths:
+      - .output/
+  needs: []
+  extends: .build-and-push-docker-image
+  # Note: extension has no container — this job only builds the zip.
+  # Kaniko build is inert; enable when a Dockerfile is added.
+
+# Scans, signing, provenance are left to the compliance framework (CF_LEVEL).
+# Without tool credentials, GitLab native scanners run as fallback.

@@ -1,0 +1,15 @@
+# Keep secrets and build artefacts out of every image (GREENFIELD §10.1)
+.git
+.gitignore
+.env
+.env.*
+.auth/
+node_modules/
+.output/
+dist/
+coverage/
+test-results/
+playwright-report/
+coverage/
+*.log
+.DS_Store

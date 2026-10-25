@@ -1,0 +1,3 @@
+# SHIP-HATS inert — activate with ./activate-shiphats.sh
+# Every merge request must be approved by a code owner (GREENFIELD §10.2)
+* @@@SHIPHATS_CODEOWNERS@@
