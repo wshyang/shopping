@@ -1,0 +1,38 @@
+{
+  "name": "shopper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "postinstall": "wxt prepare",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && node scripts/check-boundaries.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "recon:browser": "node scripts/recon/browser.mjs",
+    "recon:harvest": "node scripts/recon/harvest.mjs",
+    "recon:capture": "node scripts/recon/capture.mjs",
+    "recon:sanitize": "node scripts/recon/sanitize.mjs"
+  },
+  "devDependencies": {
+    "wxt": "0.20.11",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4",
+    "@vitest/coverage-v8": "3.2.4",
+    "@playwright/test": "1.56.1",
+    "eslint": "9.38.0",
+    "typescript-eslint": "8.46.2",
+    "prettier": "3.6.2",
+    "jsdom": "27.0.1",
+    "@types/node": "24.9.1"
+  }
+}
