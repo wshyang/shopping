@@ -1,8 +1,10 @@
 # shopper — Architecture
 
-Status: **Draft v0.1 (2026-10-24)**. This is the design before implementation. Everything marked
-**[RECON]** is a hypothesis to confirm against a live, logged-in Pinduoduo (PDD) session before
-code is written (§4).
+Status: **Offline implementation baseline v0.1 (2026-10-24)**. The design is implemented except
+for authenticated recon, recorded fixtures, fixture-backed E2E, and live smoke validation. Everything
+marked **[RECON]** remains a hypothesis to confirm against a live, logged-in Pinduoduo (PDD) session
+before live release (§4). Per A-010, provisional seams were implemented conservatively because the
+implementation environment could not access a logged-in session.
 
 ## 1. Problem
 
@@ -71,7 +73,7 @@ There is no background service worker beyond WXT's default: all work happens in 
 tab's cookies and origin apply naturally. A service worker would need host permissions and
 cross-origin cookie handling, which buys nothing here.
 
-## 4. Phase 0: live recon (needed before code)
+## 4. Phase 0: live recon (required before live validation/release)
 
 The page structure and the review-count source are undocumented and change often. Recon turns every
 **[RECON]** item into a fact, records it in `docs/01-pdd-recon.md`, and produces sanitized fixtures
@@ -224,7 +226,8 @@ Tried in order, first match wins:
    the same 万 rule (e.g. `商品评价(1.2万+)` → 12000).
 3. Neither matches → `not_found`. Never guess.
 
-A goods page with `商品评价` and no number, or `暂无评价`, gives `0` (status `ok`).
+An explicit numeric zero or `暂无评价` gives `0` (status `ok`). Before recon, a bare
+`商品评价` label with no zero marker gives `not_found` rather than guessing (A-011).
 
 ## 8. Fetch strategy
 
@@ -401,8 +404,13 @@ Open questions for the user (after recon):
 
 ## 20. Delivery milestones
 
-1. **M0 Recon:** session bootstrap, R1–R8 answered, fixtures + `01-pdd-recon.md`, A-006 decided.
-2. **M1 Domain:** parsers + sort/filter with unit tests (fixture-driven).
-3. **M2 Fetch:** fetcher, queue, cache, and risk detection, unit-tested.
-4. **M3 UI:** panel and badges, plus e2e on fixtures.
-5. **M4 Export + polish:** CSV/JSON, settings popup, live smoke test, packaged extension zip.
+1. **M0 Recon — pending authenticated access:** session bootstrap, R1–R8 answered, fixtures +
+   `01-pdd-recon.md`, A-006 finalized.
+2. **M1 Domain — implemented offline:** parsers + sort/filter with table-driven unit tests;
+   recorded-fixture cases remain part of M0.
+3. **M2 Fetch — implemented offline:** fetcher, queue, cache, and conservative risk detection,
+   unit-tested.
+4. **M3 UI — implementation complete, E2E pending M0:** panel, badges, discovery watcher, and
+   composition are present; the fixture acceptance matrix is explicitly gated.
+5. **M4 Export + polish — implementation complete, live smoke pending M0:** CSV/JSON, settings popup,
+   recon/sanitization tools, inert CI, build/zip; live validation remains gated.

@@ -1,0 +1,71 @@
+# Inert until activate-shiphats.sh removes the .shiphats suffixes.
+stages:
+  - build
+  - test
+  - static-test
+  - runtime-test
+  - deploy
+
+include:
+  - local: /.gitlab/ci/quality.gitlab-ci.yml
+
+variables:
+  NPM_CONFIG_REGISTRY: "@@SHIPHATS_NPM_REGISTRY@@"
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+build-job:
+  stage: build
+  image: "@@SHIPHATS_NODE_IMAGE@@"
+  script:
+    - npm ci --ignore-scripts
+    - npm run postinstall
+    - npm run build
+    - npm run zip
+  artifacts:
+    paths:
+      - .output/*.zip
+    expire_in: 30 days
+
+unit-test-job:
+  stage: test
+  image: "@@SHIPHATS_NODE_IMAGE@@"
+  script:
+    - npm ci --ignore-scripts
+    - npm run postinstall
+    - npm test
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage/lcov.info
+    expire_in: 14 days
+
+extension-e2e-job:
+  stage: runtime-test
+  image: "@@SHIPHATS_PLAYWRIGHT_IMAGE@@"
+  script:
+    - npm ci --ignore-scripts
+    - npm run postinstall
+    - npm run build
+    - npm run test:e2e
+  artifacts:
+    when: always
+    paths:
+      - test-results/
+      - playwright-report/
+    expire_in: 14 days
+
+deploy-final-job:
+  stage: deploy
+  image: "@@SHIPHATS_NODE_IMAGE@@"
+  needs:
+    - build-job
+    - unit-test-job
+    - extension-e2e-job
+  script:
+    - echo "Extension artifact is approved for controlled publication."
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

@@ -1,0 +1,6 @@
+sonar.projectKey=@@SHIPHATS_SONAR_PROJECT_KEY@@
+sonar.sources=src,entrypoints
+sonar.tests=tests
+sonar.javascript.lcov.reportPaths=coverage/lcov.info
+sonar.sourceEncoding=UTF-8
+sonar.exclusions=tests/fixtures/**,.output/**,.wxt/**

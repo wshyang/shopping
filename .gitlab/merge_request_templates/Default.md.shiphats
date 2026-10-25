@@ -1,0 +1,18 @@
+## Summary
+
+- What changed and why?
+- Which spec section/addendum records the decision?
+
+## Validation
+
+- [ ] Typecheck
+- [ ] Lint and format
+- [ ] Unit tests with coverage
+- [ ] WXT production build
+- [ ] Fixture-backed E2E (or explicit recon-fixture caveat)
+- [ ] No `.auth/`, raw captures, tokens, user IDs, phone numbers, or addresses
+- [ ] Live smoke only when explicitly needed and capped at five
+
+## Risk and rollback
+
+Describe PDD layout assumptions, permission changes, and the simplest rollback.

@@ -1,0 +1,12 @@
+lint-and-typecheck-job:
+  stage: static-test
+  image: "@@SHIPHATS_NODE_IMAGE@@"
+  script:
+    - npm ci --ignore-scripts
+    - npm run postinstall
+    - npm run typecheck
+    - npm run lint
+
+# Security scans, SBOM generation, signing, and provenance are injected by the
+# WOG Pipeline Execution Policy. Configure CF_LEVEL and scanner credentials as
+# project/group CI variables; policy jobs cannot read variables defined here.
